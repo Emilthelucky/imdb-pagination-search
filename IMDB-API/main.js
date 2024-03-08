@@ -14,6 +14,6 @@ dbConnect()
 //middlewares
 app.use(cors())
 app.use(express.json())
-app.use("/movies", movieRouter)
+app.use("/https://imdb-api-alpha.vercel.app/", movieRouter)
 
 app.listen(PORT, console.log("PORT 8080"))
