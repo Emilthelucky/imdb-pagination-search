@@ -12,14 +12,13 @@ config()
 dbConnect()
 
 //middlewares
-app.use(cors(
-    {
-        origin: ["imdb-k95evludv-emiltheluckys-projects.vercel.app"],
-        methods: ["POST", "GET"],
-        credentials: true
-    }
-))
+app.use(cors())
 app.use(express.json())
-app.use("/https://imdb-api-alpha.vercel.app/", movieRouter)
+app.use("/movies", movieRouter)
+app.use("/", (req, res) => {
+    return res.status(200).json({
+        message: "Hello"
+    })
+})
 
 app.listen(PORT, console.log("PORT 8080"))

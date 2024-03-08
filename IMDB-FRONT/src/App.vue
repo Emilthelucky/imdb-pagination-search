@@ -34,7 +34,8 @@ export default {
     }
   },
   async created(){
-    this.allMovies = await axios.get("https://imdb-api-alpha.vercel.app/movies/sort?limit=3&page=1")
+    // axios.defaults.withCredentials = true
+    this.allMovies = await axios.get("http://localhost:3000/movies/sort?limit=3&page=1")
     this.totalPages = this.allMovies.data.totalPages
     this.allMovies = this.allMovies.data.movies
     console.log(this.allMovies)
@@ -44,7 +45,7 @@ export default {
     async previous(){
       if(this.currentPage > 1){
         this.currentPage -= 1
-        this.allMovies = await axios.get(`https://imdb-api-alpha.vercel.app/movies/sort?limit=3&page=${this.currentPage}`)
+        this.allMovies = await axios.get(`http://localhost:3000/movies/sort?limit=3&page=${this.currentPage}`)
         this.allMovies = this.allMovies.data.movies
         console.log(this.allMovies);
       }
@@ -52,7 +53,7 @@ export default {
     async next(){
       if(this.currentPage < this.totalPages){
         this.currentPage += 1
-        this.allMovies = await axios.get(`https://imdb-api-alpha.vercel.app/movies/sort?limit=3&page=${this.currentPage}`)
+        this.allMovies = await axios.get(`http://localhost:3000/movies/sort?limit=3&page=${this.currentPage}`)
         this.allMovies = this.allMovies.data.movies
         console.log(this.allMovies);
       }
