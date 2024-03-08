@@ -12,7 +12,13 @@ config()
 dbConnect()
 
 //middlewares
-app.use(cors())
+app.use(cors(
+    {
+        origin: ["imdb-k95evludv-emiltheluckys-projects.vercel.app"],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
+))
 app.use(express.json())
 app.use("/https://imdb-api-alpha.vercel.app/", movieRouter)
 
