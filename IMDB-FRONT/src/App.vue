@@ -1,5 +1,8 @@
 <template>
   <div class="main">
+    <div class="input-div">
+      <input type="text" v-model="search" @input="handleInput"/>
+    </div>
     <div class="page">
         <button @click="previous" class="prev">Previos</button>
         <button @click="next" class="next">Next</button>
@@ -30,33 +33,43 @@ export default {
     return{
       allMovies: [],
       totalPages: 0,
-      currentPage: 1
+      currentPage: 1,
+      search: ""
     }
   },
-  async created(){
-    // axios.defaults.withCredentials = true
-    this.allMovies = await axios.get("http://localhost:3000/movies/sort?limit=3&page=1")
-    this.totalPages = this.allMovies.data.totalPages
-    this.allMovies = this.allMovies.data.movies
-    console.log(this.allMovies)
-    console.log(this.totalPages)
+  created(){
+    this.fetchData()
   },
   methods: {
-    async previous(){
-      if(this.currentPage > 1){
-        this.currentPage -= 1
-        this.allMovies = await axios.get(`http://localhost:3000/movies/sort?limit=3&page=${this.currentPage}`)
-        this.allMovies = this.allMovies.data.movies
-        console.log(this.allMovies);
+    async fetchData() {
+      try {
+        const response = await axios.get(`http://localhost:3000/movies/sort?search=${this.search}&limit=3&page=${this.currentPage}`);
+        this.totalPages = response.data.totalPages;
+        this.allMovies = response.data.movies;
+      } catch (error) {
+        console.error('API isteği başarısız oldu:', error);
       }
     },
-    async next(){
-      if(this.currentPage < this.totalPages){
-        this.currentPage += 1
-        this.allMovies = await axios.get(`http://localhost:3000/movies/sort?limit=3&page=${this.currentPage}`)
-        this.allMovies = this.allMovies.data.movies
-        console.log(this.allMovies);
+    async previous() {
+      if (this.currentPage > 1) {
+        this.currentPage -= 1;
+        await this.fetchData();
       }
+    },
+    async next() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage += 1;
+        await this.fetchData();
+      }
+    },
+    async handleInput() {
+      this.currentPage = 1
+      await this.fetchData()
+    },
+  },
+  watch: {
+    search: function() {
+      this.handleInput()
     }
   }
 }
@@ -79,7 +92,6 @@ export default {
   background: rgb(232, 232, 232);
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
 }
 
@@ -138,6 +150,22 @@ button{
 button:hover{
   background: gray;
   color: white;
+}
+
+input{
+  padding: 10px;
+  font-size: 17px;
+  width: 300px;
+  border: none;
+  border-radius: 10px;
+  transition: 0.3s ease;
+  margin-top: 50px;
+}
+
+input:hover{
+  background: black;
+  color: white;
+  border: 2px solid gray;
 }
 
 </style>
