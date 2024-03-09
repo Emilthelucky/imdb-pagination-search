@@ -4,6 +4,12 @@ import express from 'express'
 import cors from 'cors'
 import movieRouter from './views/movieRouter.js'
 
+const corsConfig = {
+    origin: "*",
+    credential: true,
+    methods: ["GET", "POST"]
+}
+
 const app = express()
 
 const PORT = 3000
@@ -12,7 +18,8 @@ config()
 dbConnect()
 
 //middlewares
-app.use(cors())
+app.options("", cors(corsConfig))
+app.use(cors(corsConfig))
 app.use(express.json())
 app.use("/movies", movieRouter)
 app.use("/", (req, res) => {
