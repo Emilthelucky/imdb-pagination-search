@@ -21,4 +21,4 @@ app.use("/", (req, res) => {
     })
 })
 
-app.listen(PORT, console.log("PORT 8080"))
+app.listen(PORT, console.log("PORT 3000"))

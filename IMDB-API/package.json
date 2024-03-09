@@ -2,10 +2,10 @@
   "name": "mern-api",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "serve": "nodemon main.js"
+    "serve": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
